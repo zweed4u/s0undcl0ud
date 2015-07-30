@@ -6,6 +6,7 @@ import html2text
 import re
 import sys
 import json
+import os
 
 
 #prompt for song name and author and best guess download
@@ -65,10 +66,10 @@ try:
 		#progressive bitrate (mp3) url
 		#get current folder and make a songs directory
 		#name mp3
-		urllib.urlretrieve(pageData[0][0][u'sources'][1][u'url'].encode('ascii','ignore'), "/home/zack/Desktop/s0undcl0ud/1.mp3")
+		urllib.urlretrieve(pageData[0][0][u'sources'][1][u'url'].encode('ascii','ignore'), os.getcwd()+'/'+pageData[0][0][u'title'].encode('ascii','ignore')+'.mp3')
 
 		#saved to current directory/var uinstead of fixed string
-		print "Download complete! Saved to: /home/zack/Desktop/s0undcl0ud/1.mp3\n"
+		print "Download complete! Saved to: "+ os.getcwd()+'/'+pageData[0][0][u'title'].encode('ascii','ignore')+'.mp3\n'
 	except:
 		print "Can't open json page\n"
 
