@@ -51,10 +51,12 @@ try:
 		data = json.loads(response.read())
 		#print data.values()
 		pageData = data.values()
-		print "Title: " +  pageData[0][0][u'title'].encode('ascii','ignore')
+
+		songTitle=pageData[0][0][u'title'].encode('ascii','ignore')
+		songId=pageData[1].encode('ascii','ignore').split('tracks:')[1]
 		
-		print "Unique track id: " + pageData[1].encode('ascii','ignore').split('tracks:')[1]
-		
+		print "Title: " +  str(songTitle)
+		print "Unique track id: " + str(songId)
 
 		#prompt for which format should be used
 		
@@ -62,14 +64,14 @@ try:
 		#hls bitrate (m3u8) url
 		#pageData[0][0][u'sources'][0][u'url'].encode('ascii','ignore')
 
-
+		fixedSongNameForPath=str(songTitle).replace('/','-')
 		#progressive bitrate (mp3) url
 		#get current folder and make a songs directory
 		#name mp3
-		urllib.urlretrieve(pageData[0][0][u'sources'][1][u'url'].encode('ascii','ignore'), os.getcwd()+'/Downloads/'+pageData[0][0][u'title'].encode('ascii','ignore')+'.mp3')
+		urllib.urlretrieve(pageData[0][0][u'sources'][1][u'url'].encode('ascii','ignore'), os.getcwd()+'/Downloads/'+fixedSongNameForPath+'.mp3')
 
 		#saved to current directory/var uinstead of fixed string
-		print "Download complete! Saved to: "+ os.getcwd()+'/Downloads/'+pageData[0][0][u'title'].encode('ascii','ignore')+'.mp3\n'
+		print "Download complete! Saved to: "+ os.getcwd()+'/Downloads/'+fixedSongNameForPath+'.mp3\n'
 	except:
 		print "Can't open json page\n"
 
