@@ -11,7 +11,7 @@ import os
 
 #prompt for song name and author and best guess download
 print '\nPlease enter a Soundcloud track URL: '
-
+#prompt user for http://
 soundURL = raw_input('')
 print ""
 
@@ -58,17 +58,37 @@ try:
 		print "Title: " +  str(songTitle)
 		print "Unique track id: " + str(songId)
 
-		#prompt for which format should be used
 		
+		print "\nBitrate source?\n1.) hls?\n2.) progressive?"
+		fixedSongNameForPath=str(songTitle).replace('/','-')
+		print "\nPlease Enter a number: "
+		source = raw_input('')
+		print ""
+
+				
+		if source == "1":
+			urllib.urlretrieve(pageData[0][0][u'sources'][0][u'url'].encode('ascii','ignore'), os.getcwd()+'/Downloads/'+fixedSongNameForPath+'.m3u8')
+		elif source == "2":
+			urllib.urlretrieve(pageData[0][0][u'sources'][1][u'url'].encode('ascii','ignore'), os.getcwd()+'/Downloads/'+fixedSongNameForPath+'.mp3')
+
+		else:
+			print "Please rerun and enter a number above."
+			sys.exit()
+			
 		print "Downloading your song...\n"
+		
+
+		
+
+
 		#hls bitrate (m3u8) url
 		#pageData[0][0][u'sources'][0][u'url'].encode('ascii','ignore')
 
-		fixedSongNameForPath=str(songTitle).replace('/','-')
+
 		#progressive bitrate (mp3) url
 		#get current folder and make a songs directory
 		#name mp3
-		urllib.urlretrieve(pageData[0][0][u'sources'][1][u'url'].encode('ascii','ignore'), os.getcwd()+'/Downloads/'+fixedSongNameForPath+'.mp3')
+		
 
 		#saved to current directory/var uinstead of fixed string
 		print "Download complete! Saved to: "+ os.getcwd()+'/Downloads/'+fixedSongNameForPath+'.mp3\n'
