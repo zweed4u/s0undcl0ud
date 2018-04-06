@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 session = requests.session()
-soundcloud_response = session.get('https://soundcloud.com/thelowercase/kid-singing-in-walmart-flip')
+soundcloud_response = session.get('https://soundcloud.com/tomcr00se/it-was-called-the-cold-war-because-russia-is-cold')
 soup = BeautifulSoup(soundcloud_response.content, 'html5lib')
 scripts = soup.findAll('script')
 for s in scripts:
@@ -38,11 +38,14 @@ query_params = {
 ###############################
 #### Let's do this instead ####
 ###############################
-
+#sc_client_id = 'Iy5e1Ri4GTNgrafaXe4mLpmJLXbXEfBR'
 sc_client_id = 'ZJqyxkmTPZPDW1ytOfwCvqzGRZEFqUf2'
 track_id = soup.findAll('meta', {'property': 'twitter:app:url:iphone'})[0]['content'].split(':')[-1]
-medias_url = f'https://api.soundcloud.com/i1/tracks/{track_id}/streams?client_id={sc_client_id}'
-response = requests.request('GET', medias_url).json()
+medias_url = f'https://api.soundcloud.com/i1/tracks/{track_id}/streams'
+query_params = {
+	'client_id': sc_client_id
+}
+response = requests.request('GET', medias_url, params=query_params).json()
 # http_mp3_128_url
 # hls_mp3_128_url
 # hls_opus_64_url
